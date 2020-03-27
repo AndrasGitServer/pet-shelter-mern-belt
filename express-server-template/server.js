@@ -44,9 +44,9 @@ mongoose.connect( `mongodb://localhost/${db_name}` ,
 
 const Schema_DB = new mongoose.Schema(
     {
-        name:           String,
-        type:           String,
-        description: 	String,
+        name:        { type: String , required: [true, "name is required"] ,        minlength: [3, "name must be 3 characters or longer"]        },
+        type:        { type: String , required: [true, "type is required"] ,        minlength: [3, "type must be 3 characters or longer"]        },
+        description: { type: String , required: [true, "description is required"] , minlength: [3, "description must be 3 characters or longer"] },
     	skill_1: 		String,
 	    skill_2: 		String,
     	skill_3: 		String
