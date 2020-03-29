@@ -5,7 +5,7 @@ import { Router, Link , navigate} from '@reach/router';
 
 
 const EditPetForm = props => {
-
+    
     const [a_pet, setA_pet] = useState([]);
     const [name, setName] = useState("");
     const [type, setType] = useState("");
@@ -14,7 +14,7 @@ const EditPetForm = props => {
     const [skill_2, setSkill_2] = useState("");
     const [skill_3, setSkill_3] = useState("");
     let is_submitted = false;
-
+        
     
     useEffect( () => {
         console.log( props._id);
@@ -36,6 +36,34 @@ const EditPetForm = props => {
         event.preventDefault();
         is_submitted = true;
         console.log( is_submitted , props.path );
+
+        if(name.length == 0){
+            alert(name.length);
+            // setError_n1( error_n1.push(name_e) );
+            // console.log(error_n1[0] , error_n1.length);
+        } else if(name.length < 3){
+            alert(name.length);
+            // setError_n2( error_n2.push(name_e) );
+            // console.log(error_n2[0] , error_n2.length);
+        } else if(type.length == 0){
+            alert(type.length);
+            // setError_n1( error_n1.push(name_e) );
+            // console.log(error_n1[0] , error_n1.length);
+        } else if(type.length < 3){
+            alert(type.length);
+            // setError_n2( error_n2.push(name_e) );
+            // console.log(error_n2[0] , error_n2.length);
+        } else if(description.length == 0){
+            alert(description.length);
+            // setError_n1( error_n1.push(name_e) );
+            // console.log(error_n1[0] , error_n1.length);
+        } else if(description.length < 3){
+            alert(description.length);
+            // setError_n2( error_n2.push(name_e) );
+            // console.log(error_n2[0] , error_n2.length);
+        }
+        else {
+
         const one_pet = { name , type , description , skill_1 , skill_2 , skill_3 };
         alert(JSON.stringify(one_pet));
         console.log( one_pet );
@@ -44,10 +72,16 @@ const EditPetForm = props => {
         console.log( edit_pet_by_id );
         axios.post( edit_pet_by_id , one_pet )
             .then( res => {
-                console.log( res );
-                navigate("/");
+                if (res.data.errors) {
+                    console.log( "***res.data",res.data );
+                    // setErrors( res.data.errors );
+                } else {
+                    navigate("/");
+                }
             } )
         .catch( error => console.log( error ));
+
+        } // *** end of else block ***
     }
 
 
@@ -60,9 +94,33 @@ const EditPetForm = props => {
                 a_pet.map( one_pet => 
                 <div>
                     <h4> Edit  {one_pet.name}</h4>
-                    <input type="text" placeholder={one_pet.name} onChange={ e => setName(e.target.value)} ></input>&nbsp;
-                    <input type="text" placeholder={one_pet.type} onChange={ e => setType(e.target.value)} ></input>&nbsp;
-                    <input type="text" placeholder={one_pet.description} onChange={ e => setDesc(e.target.value)} ></input>
+                    <input type="text" placeholder={one_pet.name} value={name} onChange={ e => setName(e.target.value)} ></input>
+                    {
+                        name == "" ? 
+                            <p style={{color: "red"}}> name is required </p> : 
+                                (name.length == 1 || name.length == 2) ?
+                                    <p style={{color: "red"}}> name must be 3 characters or longer </p> : ""
+                    }
+
+                    &nbsp;
+                    <input type="text" placeholder={one_pet.type} value={type} onChange={ e => setType(e.target.value)} ></input>
+                    {
+                        type == "" ? 
+                            <p style={{color: "red"}}> type is required </p> : 
+                                (type.length == 1 || type.length == 2) ?
+                                    <p style={{color: "red"}}> type must be 3 characters or longer </p> : ""
+                    }
+
+
+                    &nbsp;
+                    <input type="text" placeholder={one_pet.description} value={description} onChange={ e => setDesc(e.target.value)} ></input>
+                    {
+                        description == "" ? 
+                            <p style={{color: "red"}}> description is required </p> : 
+                                (description.length == 1 || description.length == 2) ?
+                                    <p style={{color: "red"}}> description must be 3 characters or longer </p> : ""
+                    }
+
                     <br /> <br />
                     <input type="text" placeholder={one_pet.skill_1} onChange={ e => setSkill_1(e.target.value)}></input>&nbsp;
                     <input type="text" placeholder={one_pet.skill_2} onChange={ e => setSkill_2(e.target.value)}></input>&nbsp;

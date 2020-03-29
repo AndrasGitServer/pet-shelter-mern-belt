@@ -76,7 +76,7 @@ app.get('/' ,
 app.get('/api/read_all' ,
     (req_from_client , res_to_client) => {
         console.log('*** /api/read_all ***');
-        Model_DB.find().sort("name").exec()
+        Model_DB.find().sort("type").exec()
             .then( list_all => res_to_client.json( list_all ) )
             .catch( error   => res_to_client.json( error    ) );
     }
@@ -177,7 +177,7 @@ app.post('/api/update_one_whole/:_id' ,
             {
                 name: req_from_client.body.name ,    
                 type: req_from_client.body.type ,
-                date: req_from_client.body.date
+                description: req_from_client.body.description
             } )
             .then( () => res_to_client.json( { server_message : "Whole object updated" } ) )
             .catch( error => res_to_client.json( error ) );
