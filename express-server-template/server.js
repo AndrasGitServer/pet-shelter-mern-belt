@@ -177,7 +177,10 @@ app.post('/api/update_one_whole/:_id' ,
             {
                 name: req_from_client.body.name ,    
                 type: req_from_client.body.type ,
-                description: req_from_client.body.description
+                description: req_from_client.body.description,
+                skill_1: req_from_client.body.skill_1,
+                skill_2: req_from_client.body.skill_2,
+                skill_3: req_from_client.body.skill_3
             } )
             .then( () => res_to_client.json( { server_message : "Whole object updated" } ) )
             .catch( error => res_to_client.json( error ) );
